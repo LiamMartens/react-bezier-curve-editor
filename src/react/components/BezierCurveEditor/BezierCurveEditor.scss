@@ -1,0 +1,74 @@
+:export {
+    colorHandleLine: $color-handleline;
+    colorCurveLine: $color-curveline;
+    colorRow: $color-row;
+    colorBackground: $color-light;
+}
+
+.root {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.wrap {
+    position: relative;
+
+    .bg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        background: $color-outerarea;
+    }
+}
+
+.plane {
+    position: absolute;
+    left: 0;
+    border-left: 1px solid $color-axisline;
+    border-bottom: 1px solid $color-axisline;
+}
+
+.curve {
+    position: relative;
+}
+
+.handle {
+    position: absolute;
+    border-radius: 50%;
+    box-sizing: content-box;
+    border: 0;
+    padding: 0;
+    outline: 0;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-touch-callout: none;
+    transform: translate(-50%, -50%);
+    transition: box-shadow 100ms ease-out;
+
+    &.active {
+        box-shadow: 0 0 0 4.5px rgba($color-light, .7),
+            0 0 0 4px currentColor;
+    }
+
+    &.fixed {
+        pointer-events: none;
+        cursor: default;
+        border: 1px solid $color-handleline;
+        background-color: $color-light;
+    }
+
+    &.start {
+        color: $color-starthandle;
+        background-color: $color-starthandle;
+    }
+
+    &.end {
+        color: $color-endhandle;
+        background-color: $color-endhandle;
+    }
+}

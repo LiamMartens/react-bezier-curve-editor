@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2015",
+        "declaration": true,
+        "declarationDir": "dist",
+        "lib": [
+            "es2017",
+            "es2015",
+            "dom"
+        ],
+        "jsx": "react",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "outDir": "./dist"
+    },
+    "include": [
+        "globals.d.ts",
+        "./src/**/*",
+        "./typings/**/*",
+        "./constants/**/*"
+    ]
+}
