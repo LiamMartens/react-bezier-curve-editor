@@ -1,8 +1,14 @@
 {
   "name": "react-bezier-curve-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple bezier curve editor built with React",
   "main": "dist/react.js",
+  "types": "dist/react/index.d.ts",
+  "files": [
+    "dist/*.css",
+    "dist/*.js",
+    "dist/react/**/*"
+  ],
   "scripts": {
     "build": "rm -rf dist; NODE_ENV=production webpack --mode=production",
     "dev": "NODE_ENV=development webpack-dev-server --watch",
@@ -11,7 +17,7 @@
   "keywords": [
     "React"
   ],
-  "repository": "",
+  "repository": "https://github.com/LiamMartens/react-bezier-curve-editor",
   "author": "Liam Martens <hi@liammartens.com>",
   "license": "ISC",
   "devDependencies": {
@@ -40,11 +46,5 @@
   "peerDependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
-  },
-  "types": "dist/react/index.d.ts",
-  "files": [
-    "dist/*.css",
-    "dist/*.js",
-    "typings/*.d.ts"
-  ]
+  }
 }
