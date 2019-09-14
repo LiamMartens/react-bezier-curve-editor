@@ -1,6 +1,6 @@
 {
   "name": "react-bezier-curve-editor",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple bezier curve editor built with React",
   "main": "dist/react.js",
   "types": "dist/react/index.d.ts",

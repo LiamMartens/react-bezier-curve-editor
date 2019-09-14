@@ -16,6 +16,7 @@ interface IProps {
     handleLineColor?: string;
     startHandleColor?: string;
     endHandleColor?: string;
+    className?: string;
     startHandleClassName?: string;
     startHandleActiveClassName?: string;
     endHandleClassName?: string;
@@ -238,6 +239,7 @@ export class BezierCurveEditor extends React.Component<IProps, IState> {
             outerAreaSize,
             startHandleColor,
             endHandleColor,
+            className,
             startHandleClassName,
             startHandleActiveClassName,
             endHandleClassName,
@@ -249,7 +251,10 @@ export class BezierCurveEditor extends React.Component<IProps, IState> {
         const svgHeight = this.height + strokeWidth * 2 + (outerAreaSize * 2);
 
         return (
-            <div className={styles.root}>
+            <div className={classNames({
+                [styles.root]: true,
+                [className]: !!className,
+            })}>
                 <div className={styles.wrap}>
                     <div
                         className={styles.bg}
