@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as styles from './index.scss';
-import { BezierCurveEditor } from '../react';
+import { BezierCurveEditor } from '../lib';
 
 interface IState {
 
@@ -14,7 +13,7 @@ class App extends React.Component<{}, IState> {
 
     public render() {
         return (
-            <main className={styles.main}>
+            <main>
                 <BezierCurveEditor
                     size={300}
                 />

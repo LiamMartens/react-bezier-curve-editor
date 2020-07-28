@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "esnext",
         "target": "es2015",
         "declaration": true,
-        "declarationDir": "dist",
+        "declarationDir": "lib",
         "lib": [
             "es2017",
             "es2015",
@@ -12,12 +12,10 @@
         "jsx": "react",
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "outDir": "./dist"
+        "outDir": "./lib"
     },
     "include": [
         "globals.d.ts",
-        "./src/**/*",
-        "./typings/**/*",
-        "./constants/**/*"
+        "./src"
     ]
 }

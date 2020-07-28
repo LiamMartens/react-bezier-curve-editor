@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './BezierCurveEditor.scss';
+import styles from './BezierCurveEditor.scss';
 import classNames from 'classnames';
 
 type ValueType = [number, number, number, number];

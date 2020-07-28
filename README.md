@@ -4,7 +4,6 @@ Customizable React Bezier Curve editor for easings. Default styling inspired by 
 
 ## Usage
 ```
-import 'react-bezier-curve-editor/dist/react.css';
 import { BezierCurveEditor } from 'react-bezier-curve-editor`;
 <BezierCurveEditor
 />
