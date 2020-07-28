@@ -11,7 +11,8 @@
   "scripts": {
     "build": "rollup -c rollup.config.js",
     "watch": "rollup -wc rollup.config.js",
-    "dev": "parcel ./test/index.html"
+    "dev": "parcel ./test/index.html",
+    "prepare": "npm run build"
   },
   "keywords": [
     "React"
