@@ -28,7 +28,7 @@
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@types/react": "^16.8.17",
     "@types/react-dom": "^16.8.4",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "parcel-bundler": "^1.12.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
