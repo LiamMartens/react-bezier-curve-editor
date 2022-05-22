@@ -36,6 +36,15 @@ interface IState {
 
 type PropsWithDefaults = IProps & typeof BezierCurveEditor.defaultProps;
 
+const defaultStateValue: IState = {
+  value: [.4,0,1,.6], // easeIn
+  startValue: [.4,0,1,.6],
+  movingStartHandle: false,
+  movingEndHandle: false,
+  movingStartHandleStart: { x: 0, y: 0 },
+  movingEndHandleStart: { x: 0, y: 0 },
+}
+
 export class BezierCurveEditor extends React.Component<IProps, IState> {
     public static defaultProps = {
         size: 200,
@@ -54,12 +63,7 @@ export class BezierCurveEditor extends React.Component<IProps, IState> {
     }
 
     public state: IState = {
-        value: [.4,0,1,.6], // easeIn
-        startValue: [.4,0,1,.6],
-        movingStartHandle: false,
-        movingEndHandle: false,
-        movingStartHandleStart: { x: 0, y: 0 },
-        movingEndHandleStart: { x: 0, y: 0 },
+      ...defaultStateValue
     }
 
     //#region getters
@@ -205,6 +209,16 @@ export class BezierCurveEditor extends React.Component<IProps, IState> {
             const y = event.screenY;
             this.moveHandles(x, y);
         }
+    }
+
+    public constructor(props: IProps) {
+      super(props)
+      if (typeof props.value !== 'undefined') {
+        this.state = {
+          ...defaultStateValue,
+          value: props.value,
+        }
+      }
     }
 
     public componentWillUnmount() {
