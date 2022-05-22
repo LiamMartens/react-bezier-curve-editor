@@ -321,6 +321,7 @@ export class BezierCurveEditor extends React.Component<IProps, IState> {
                         }}
                     ></span>
                     <button
+                        type="button"
                         className={classNames({
                             [styles.handle]: true,
                             [styles.start]: true,
@@ -338,6 +339,7 @@ export class BezierCurveEditor extends React.Component<IProps, IState> {
                         onTouchStart={this.handleStartHandleStartMoving}
                     ></button>
                     <button
+                        type="button"
                         className={classNames({
                             [styles.handle]: true,
                             [styles.end]: true,
