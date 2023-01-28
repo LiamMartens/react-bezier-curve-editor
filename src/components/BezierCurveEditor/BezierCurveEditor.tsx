@@ -12,6 +12,7 @@ interface IProps {
     strokeWidth?: number;
     rowColor?: string;
     fixedHandleColor?: string;
+    fixedHandlePosition?: Array<number>;
     curveLineColor?: string;
     handleLineColor?: string;
     startHandleColor?: string;
@@ -32,6 +33,7 @@ interface IState {
     movingStartHandleStart: { x: number; y: number; };
     movingEndHandle: boolean;
     movingEndHandleStart: { x: number; y: number; };
+    fixedHandlePosition: Array<number>;
 }
 
 type PropsWithDefaults = IProps & typeof BezierCurveEditor.defaultProps;
@@ -43,6 +45,7 @@ const defaultStateValue: IState = {
   movingEndHandle: false,
   movingStartHandleStart: { x: 0, y: 0 },
   movingEndHandleStart: { x: 0, y: 0 },
+  fixedHandlePosition: [0.0,0.0],
 }
 
 export class BezierCurveEditor extends React.Component<IProps, IState> {
@@ -77,11 +80,13 @@ export class BezierCurveEditor extends React.Component<IProps, IState> {
     }
 
     private get startCoordinate() {
-        return [0, this.height];
+        const { fixedHandlePosition } = this.props as PropsWithDefaults; 
+        return [0, this.height * (1 - fixedHandlePosition[0])];
     }
 
     private get endCoordinate() {
-        return [this.width,0];
+        const { fixedHandlePosition } = this.props as PropsWithDefaults;
+        return [this.width * (1 - fixedHandlePosition[1]),0];
     }
 
     private get startBezierHandle() {
