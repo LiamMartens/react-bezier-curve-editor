@@ -1,4 +1,4 @@
-declare module '*.scss' {
-    const content: { [key: string]: string };
-    export = content;
+declare module "*.module.css" {
+  const content: { [key: string]: string };
+  export = content;
 }
