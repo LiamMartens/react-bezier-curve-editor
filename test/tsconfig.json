@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES2015",
+    "moduleResolution": "Bundler",
+    "jsx": "react",
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules"]
+}

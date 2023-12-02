@@ -21,10 +21,10 @@
   ],
   "scripts": {
     "build": "run-p build:*",
-    "build:js": "esbuild ./src --bundle --external:react --target=es2015,safari13 --outfile=./lib/index.js",
+    "build:js": "esbuild ./src --bundle --format=esm --external:react --target=es2015,safari13 --outfile=./lib/index.js --analyze",
     "build:types": "tsc -p .",
     "watch": "run-p watch:*",
-    "watch:js": "esbuild ./src --watch --bundle --external:react --target=es2015,safari13 --outfile=./lib/index.js",
+    "watch:js": "esbuild ./src --watch --bundle --format=esm --external:react --target=es2015,safari13 --outfile=./lib/index.js",
     "watch:types": "tsc -w -p .",
     "prepare": "npm run build",
     "storybook": "storybook dev -p 6006",
