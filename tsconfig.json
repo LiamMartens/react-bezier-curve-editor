@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "ESNext",
     "target": "es2015",
     "declaration": true,
-    "declarationDir": "lib",
+    "emitDeclarationOnly": true,
     "lib": ["es2017", "es2015", "dom"],
     "jsx": "react",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "skipLibCheck": true
   },
   "include": ["globals.d.ts", "./src"]
 }
