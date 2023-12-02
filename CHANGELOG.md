@@ -2,7 +2,7 @@
 
 ## 2.0.0
 * Rewrite from class component to functional component
-* Replacead SCSS with CSS for simplicity
+* Replaced SCSS with CSS for simplicity
 * Add CSS variables for simpler theming
 * Added preview option for previewing the easing curve
 * Update to React 18 dependency
