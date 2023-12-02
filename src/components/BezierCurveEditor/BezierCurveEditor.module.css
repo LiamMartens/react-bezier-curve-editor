@@ -1,0 +1,122 @@
+:root {
+  --bce-sizes-curve-handle: 16px;
+
+  --bce-padding-sm: 4px;
+  --bce-padding-md: 8px;
+  --bce-padding-lg: 12px;
+  --bce-padding-xl: 16px;
+
+  --bce-colors-handle-line: #969696;
+  --bce-colors-curve-line: black;
+  --bce-colors-row: #f2f2f2;
+  --bce-colors-background: white;
+  --bce-colors-outerarea: #fafafa;
+  --bce-colors-axisline: black;
+  --bce-colors-handle-fixed: white;
+  --bce-colors-handle-start: #f08;
+  --bce-colors-handle-end: #0ab;
+  --bce-colors-preview: white;
+  --bce-colors-preview-border:black;
+  --bce-colors-handle-active-shadow: rgba(255, 255, 255, 0.7);
+}
+
+.root {
+  padding: var(--bce-padding-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  isolation: isolate;
+
+  .wrap {
+    position: relative;
+  }
+
+  .bg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: var(--bce-colors-outerarea);
+  }
+}
+
+.plane {
+  position: absolute;
+  left: 0;
+  border-left: 1px solid var(--bce-colors-axisline);
+  border-bottom: 1px solid var(--bce-colors-axisline);
+
+  .innerArea {
+    fill: var(--bce-colors-background);
+  }
+
+  .row {
+    fill: var(--bce-colors-row);
+  }
+}
+
+.curve {
+  position: relative;
+
+  .handleLine {
+    stroke: var(--bce-colors-handle-line);
+  }
+
+  .curveLine {
+    stroke: var(--bce-colors-curve-line);
+  }
+
+  .preview {
+    offset-distance: 0;
+    fill: var(--bce-colors-preview);
+    stroke: var(--bce-colors-preview-border);
+    animation: preview-loop 2s infinite;
+  }
+}
+
+.handle {
+  position: absolute;
+  border-radius: 50%;
+  box-sizing: content-box;
+  border: 0;
+  padding: 0;
+  outline: 0;
+  width: var(--bce-sizes-curve-handle);
+  height: var(--bce-sizes-curve-handle);
+  cursor: pointer;
+  user-select: none;
+  -webkit-touch-callout: none;
+  transform: translate(-50%, -50%);
+  transition: box-shadow 100ms ease-out;
+
+  &.active {
+    box-shadow: 0 0 0 4.5px var(--bce-colors-handle-active-shadow), 0 0 0 4px currentColor;
+  }
+
+  &.fixed {
+    pointer-events: none;
+    cursor: default;
+    border: 1px solid var(--bce-colors-handle-line);
+    background-color: var(--bce-colors-handle-fixed);
+  }
+
+  &.start {
+    color: var(--bce-colors-handle-start);
+    background-color: var(--bce-colors-handle-start);
+  }
+
+  &.end {
+    color: var(--bce-colors-handle-end);
+    background-color: var(--bce-colors-handle-end);
+  }
+}
+
+@keyframes preview-loop {
+  from {
+    offset-distance: 0%;
+  }
+
+  to {
+    offset-distance: 100%;
+  }
+}

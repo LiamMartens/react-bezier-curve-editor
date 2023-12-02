@@ -1,28 +1,16 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { BezierCurveEditor } from '../lib';
+import "react-bezier-curve-editor/index.css";
+import React, { useState } from "react";
+import { createRoot } from "react-dom/client";
+import { BezierCurveEditor, ValueType } from "react-bezier-curve-editor";
 
-interface IState {
+function App() {
+  const [value, setValue] = useState<ValueType>([0, 0, 1, 1]);
 
+  return (
+    <div style={{ width: "500px" }}>
+      <BezierCurveEditor enablePreview value={value} onChange={setValue} />
+    </div>
+  );
 }
 
-class App extends React.Component<{}, IState> {
-    public state = {
-
-    }
-
-    public render() {
-        return (
-            <main>
-                <BezierCurveEditor
-                    size={300}
-                />
-            </main>
-        );
-    }
-}
-
-ReactDOM.render(
-    <App />,
-    document.getElementById('app'),
-);
+createRoot(document.getElementById("app")).render(<App />);
