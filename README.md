@@ -1,7 +1,7 @@
 # React Bezier Curve Editor
 Customizable React Bezier Curve editor for easings. Default styling inspired by [cubic-bezier](https://cubic-bezier.com)
 
-![demo](./static/demo.webm)  
+![demo](./static/demo.webp)  
 
 ## Usage
 ```jsx
