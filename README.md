@@ -1,9 +1,11 @@
 # React Bezier Curve Editor
+
 Customizable React Bezier Curve editor for easings. Default styling inspired by [cubic-bezier](https://cubic-bezier.com)
 
-![demo](./static/demo.webp)  
+![demo](./static/demo.webp)
 
 ## Usage
+
 ```jsx
 import 'react-bezier-curve-editor/index.css';
 import { BezierCurveEditor } from 'react-bezier-curve-editor`;
@@ -12,7 +14,8 @@ import { BezierCurveEditor } from 'react-bezier-curve-editor`;
 ```
 
 ## Props
-|             Name             |                                                 Description                                                 | Default value |
+
+| Name                         | Description                                                                                                 | Default value |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------- |
 | `size`                       | This defines the width and the height of the control.                                                       | `200`         |
 |                              | The final width/height of the component will be slightly larger because of the `outerAreaSize` and spacings |               |
@@ -32,3 +35,29 @@ import { BezierCurveEditor } from 'react-bezier-curve-editor`;
 | `endHandleActiveClassName`   | Class to apply for active state of end handle                                                               |               |
 | `value`                      | The current bezier curve value                                                                              | `[.4,0,1,.6]` |
 | `onChange`                   | The onChange handler (takes bezier curve value array as parameter)                                          |               |
+
+## Theming
+
+Theming can be done by either overriding the class names or the CSS variables. Below is a list of the CSS variables used:
+
+```css
+:root {
+  --bce-sizes-curve-handle: 16px;
+  --bce-padding-sm: 4px;
+  --bce-padding-md: 8px;
+  --bce-padding-lg: 12px;
+  --bce-padding-xl: 16px;
+  --bce-colors-handle-line: #969696;
+  --bce-colors-curve-line: black;
+  --bce-colors-row: #f2f2f2;
+  --bce-colors-background: white;
+  --bce-colors-outerarea: #fafafa;
+  --bce-colors-axisline: black;
+  --bce-colors-handle-fixed: white;
+  --bce-colors-handle-start: #f08;
+  --bce-colors-handle-end: #0ab;
+  --bce-colors-preview: white;
+  --bce-colors-preview-border: black;
+  --bce-colors-handle-active-shadow: rgba(255, 255, 255, 0.7);
+}
+```
