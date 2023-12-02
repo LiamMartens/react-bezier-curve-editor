@@ -1,9 +1,7 @@
 # React Bezier Curve Editor
 Customizable React Bezier Curve editor for easings. Default styling inspired by [cubic-bezier](https://cubic-bezier.com)
 
-<video loop autoplay muted style="width: 100%; height: auto;">
-  <source src="./static/demo.webm" type="video/webm" />
-</video>
+![demo](./static/demo.webm)  
 
 ## Usage
 ```jsx
