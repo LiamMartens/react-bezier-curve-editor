@@ -9,18 +9,18 @@ export function bezierCurveParamsFromSizeAndValue(size: number, value: ExpandedV
   };
 }
 
-function getStartPointCoordinate(size: number, value: ValueType | ExpandedValueType): null | [number, number] {
-  return [0, size * (1 - value[0])];
+function getStartPointCoordinate(size: number, value: ValueType | ExpandedValueType): [number, number] {
+  return [size * value[0], size * (1 - value[1])];
 }
 
 function getStartHandleCoordinate(size: number, value: ValueType | ExpandedValueType): [number, number] {
-  return [size * value[1], size * (1 - value[2])];
+  return [size * value[2], size * (1 - value[3])];
 }
 
-function getEndPointCoordinate(size: number, value: ValueType | ExpandedValueType): null | [number, number] {
-  return [size, size * (1 - value[5])];
+function getEndPointCoordinate(size: number, value: ValueType | ExpandedValueType): [number, number] {
+  return [size * value[6], size * (1 - value[7])];
 }
 
 function getEndHandleCoordinate(size: number, value: ValueType | ExpandedValueType): [number, number] {
-  return [size * value[3], size * (1 - value[4])];
+  return [size * value[4], size * (1 - value[5])];
 }
