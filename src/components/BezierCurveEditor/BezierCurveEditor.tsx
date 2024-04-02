@@ -31,8 +31,6 @@ interface BezierCurveEditorBaseProps {
   endHandleClassName?: string;
   endHandleActiveClassName?: string;
   enablePreview?: boolean;
-  startNodeInitialPosition?: [number, number];
-  endNodeInitialPosition?: [number, number];
 }
 
 interface BezierCurveEditorEditNodeProps {
@@ -53,8 +51,6 @@ const defaultProps: BezierCurveEditorProps = {
   size: 200,
   outerAreaSize: 50,
   strokeWidth: 2,
-  startNodeInitialPosition: [0, 0],
-  endNodeInitialPosition: [1, 1],
   value: [0.4, 0, 1, 0.6], // easeIn
 };
 
@@ -77,12 +73,10 @@ export function BezierCurveEditor({
   endHandleClassName,
   startHandleActiveClassName,
   endHandleActiveClassName,
-  startNodeInitialPosition: startNodePosition = defaultProps.startNodeInitialPosition,
-  endNodeInitialPosition: endNodePosition = defaultProps.endNodeInitialPosition,
   ...props
 }: BezierCurveEditorProps) {
   const initialValueRef = React.useRef<ExpandedValueType>(
-    valueProp.length === 4 ? [...startNodePosition, ...valueProp, ...endNodePosition] : valueProp
+    valueProp.length === 4 ? [0, 0, ...valueProp, 1, 1] : valueProp
   );
   const value = React.useMemo((): ExpandedValueType => {
     return valueProp.length === 4 ? [0, 0, ...valueProp, 1, 1] : valueProp;
