@@ -60,3 +60,8 @@ Theming can be done by either overriding the class names or the CSS variables. B
   --bce-colors-handle-active-shadow: rgba(255, 255, 255, 0.7);
 }
 ```
+## Accessibility
+
+For now, this library doesn't handle the accessibility in any special way _intentionally_.  Google Chrome has zero support for screen readers in Bezier curve editors in the developer tools, which was our only idea for how to model this component for a11y.
+
+At present, we would suggest that you provide a toggle-able alternative experience for keyboard users as well as users who don't have access to a [fine pointer device](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer).
