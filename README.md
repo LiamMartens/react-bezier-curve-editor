@@ -1,8 +1,6 @@
-#React Bezier Curve Input
+# React Bezier Curve Editor
 
 Customizable React Bezier Curve editor for easings and more. Default styling inspired by [cubic-bezier](https://cubic-bezier.com)
-
-A fork of [Liam Martens](hi@liammartens.com) package [React Bezier Curve Editor](https://github.com/LiamMartens/react-bezier-curve-editor)
 
 ## Usage
 
@@ -34,8 +32,6 @@ import { BezierCurveEditor } from 'react-bezier-curve-editor`;
 | `endHandleActiveClassName`   | Class to apply for active state of end handle                                                               |               |
 | `value`                      | The current bezier curve value                                                                              | `[.4,0,1,.6]` |
 | `onChange`                   | The onChange handler (takes bezier curve value array as parameter)                                          |               |
-|`startNodeInitialYPosition` | The initial Y position of the left node | `0` | 
-|`endNodeInitialYPosition` | The initial Y position of the left node | `1` | 
 |`allowNodeEditing` | Whether or not the left and right nodes can be moved by the user | `false` | 
 
 ## Theming
