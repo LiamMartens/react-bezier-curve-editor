@@ -30,6 +30,7 @@ import { BezierCurveEditor } from 'react-bezier-curve-editor`;
 | `startHandleActiveClassName` | Class to apply for active state of start handle                                                             |               |
 | `endHandleClassName`         | The className of the end handle                                                                             |               |
 | `endHandleActiveClassName`   | Class to apply for active state of end handle                                                               |               |
+| `fixedPointActiveClassName`   | Class to apply for active state of fixed points                                                               |               |
 | `value`                      | The current bezier curve value                                                                              | `[.4,0,1,.6]` |
 | `onChange`                   | The onChange handler (takes bezier curve value array as parameter)                                          |               |
 |`allowNodeEditing` | Whether or not the left and right nodes can be moved by the user | `false` | 

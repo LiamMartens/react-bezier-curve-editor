@@ -5,6 +5,7 @@ import { ExpandedValueType, ValueType } from "../../types";
 import { bezierCurveParamsFromSizeAndValue } from "../../utils";
 
 interface Props {
+  activeClassName: string;
   size: number;
   value: ExpandedValueType;
   outerAreaSize: number;
@@ -29,6 +30,7 @@ export function BezierCurveEditorEndPoints({
   strokeWidth,
   handleLineColor,
   fixedHandleColor,
+  activeClassName,
   ...props
 }: Props) {
   const { startCoordinate, endCoordinate } = bezierCurveParamsFromSizeAndValue(size, value);
@@ -75,7 +77,7 @@ export function BezierCurveEditorEndPoints({
         type="button"
         className={cx(styles.handle, styles.fixed, {
           [styles.active]: movingStartPoint,
-          // [startHandleActiveClassName]: !!startHandleActiveClassName && movingStartPoint,
+          [activeClassName]: !!activeClassName && movingStartPoint,
         })}
         style={{
           top: `${startCoordinate[1] + outerAreaSize + strokeWidth}px`,
@@ -91,7 +93,7 @@ export function BezierCurveEditorEndPoints({
         type="button"
         className={cx(styles.handle, styles.fixed, {
           [styles.active]: movingEndPoint,
-          // [endHandleActiveClassName]: !!endHandleActiveClassName && movingEndPoint,
+          [activeClassName]: !!activeClassName && movingEndPoint,
         })}
         style={{
           top: `${endCoordinate[1] + outerAreaSize + strokeWidth}px`,

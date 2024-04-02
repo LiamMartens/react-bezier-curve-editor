@@ -26,6 +26,7 @@ interface BezierCurveEditorBaseProps {
   startHandleColor?: string;
   endHandleColor?: string;
   className?: string;
+  fixedPointActiveClassName?: string;
   startHandleClassName?: string;
   startHandleActiveClassName?: string;
   endHandleClassName?: string;
@@ -71,6 +72,7 @@ export function BezierCurveEditor({
   className,
   startHandleClassName,
   endHandleClassName,
+  fixedPointActiveClassName,
   startHandleActiveClassName,
   endHandleActiveClassName,
   ...props
@@ -195,6 +197,7 @@ export function BezierCurveEditor({
           handleLineColor={handleLineColor}
           fixedHandleColor={fixedHandleColor}
           isEditable={props.allowNodeEditing}
+          activeClassName={fixedPointActiveClassName}
           movingEndPoint={movingEndPoint}
           movingStartPoint={movingStartPoint}
           handleStartPointStartMoving={handleStartPointStartMoving}
