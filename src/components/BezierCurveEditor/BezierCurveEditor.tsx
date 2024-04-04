@@ -45,7 +45,7 @@ interface BezierCurveEditorFixedNodeProps {
   onChange?: (value: ValueType) => void;
 }
 
-type BezierCurveEditorProps = BezierCurveEditorBaseProps &
+export type BezierCurveEditorProps = BezierCurveEditorBaseProps &
   (BezierCurveEditorEditNodeProps | BezierCurveEditorFixedNodeProps);
 
 const defaultProps: BezierCurveEditorProps = {
