@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.0
+* [#21](https://github.com/LiamMartens/react-bezier-curve-editor/pull/21) Allow editing of fixed end handles  
+Thanks to [@tbhesswebber](https://github.com/tbhesswebber)!
+
 ## 2.0.0
 * Rewrite from class component to functional component
 * Replaced SCSS with CSS for simplicity
