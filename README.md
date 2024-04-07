@@ -1,13 +1,10 @@
 # React Bezier Curve Editor
 
-Customizable React Bezier Curve editor for easings. Default styling inspired by [cubic-bezier](https://cubic-bezier.com)
-
-![demo](./static/demo.webp)
+Customizable React Bezier Curve editor for easings and more. Default styling inspired by [cubic-bezier](https://cubic-bezier.com)
 
 ## Usage
 
 ```jsx
-import 'react-bezier-curve-editor/index.css';
 import { BezierCurveEditor } from 'react-bezier-curve-editor`;
 
 <BezierCurveEditor />
@@ -33,8 +30,10 @@ import { BezierCurveEditor } from 'react-bezier-curve-editor`;
 | `startHandleActiveClassName` | Class to apply for active state of start handle                                                             |               |
 | `endHandleClassName`         | The className of the end handle                                                                             |               |
 | `endHandleActiveClassName`   | Class to apply for active state of end handle                                                               |               |
+| `fixedPointActiveClassName`   | Class to apply for active state of fixed points                                                               |               |
 | `value`                      | The current bezier curve value                                                                              | `[.4,0,1,.6]` |
 | `onChange`                   | The onChange handler (takes bezier curve value array as parameter)                                          |               |
+|`allowNodeEditing` | Whether or not the left and right nodes can be moved by the user | `false` | 
 
 ## Theming
 
@@ -61,3 +60,8 @@ Theming can be done by either overriding the class names or the CSS variables. B
   --bce-colors-handle-active-shadow: rgba(255, 255, 255, 0.7);
 }
 ```
+## Accessibility
+
+For now, this library doesn't handle the accessibility in any special way _intentionally_.  Google Chrome has zero support for screen readers in Bezier curve editors in the developer tools, which was our only idea for how to model this component for a11y.
+
+At present, we would suggest that you provide a toggle-able alternative experience for keyboard users as well as users who don't have access to a [fine pointer device](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer).

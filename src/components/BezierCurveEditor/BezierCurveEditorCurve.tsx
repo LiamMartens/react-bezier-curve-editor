@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./BezierCurveEditor.module.css";
-import { ValueType } from "../../types";
+import { ExpandedValueType } from "../../types";
 import { bezierCurveParamsFromSizeAndValue } from "../../utils";
 
 type Props = {
-  value: ValueType;
+  value: ExpandedValueType;
   size: number;
   strokeWidth: number;
   outerAreaSize: number;
@@ -26,6 +26,7 @@ export function BezierCurveEditorCurve({
     size,
     value
   );
+
   const svgWidth = size + strokeWidth * 2;
   const svgHeight = size + strokeWidth * 2 + outerAreaSize * 2;
 

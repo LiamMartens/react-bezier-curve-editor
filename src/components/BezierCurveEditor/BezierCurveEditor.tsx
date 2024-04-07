@@ -1,13 +1,19 @@
-import React, { MouseEvent, PointerEvent, TouchEvent, useCallback, useRef, useState } from "react";
+import React from "react";
 import cx from "classnames";
 import styles from "./BezierCurveEditor.module.css";
 import { BezierCurveEditorPlane } from "./BezierCurveEditorPlane";
-import type { ValueType } from "../../types";
+import type { ExpandedValueType, ValueType } from "../../types";
 import { BezierCurveEditorCurve } from "./BezierCurveEditorCurve";
 import { BezierCurveEditorEndPoints } from "./BezierCurveEditorEndPoints";
 import { bezierCurveParamsFromSizeAndValue } from "../../utils";
+import { useHandleState } from "./hooks";
 
-export type BezierCurveEditorProps = {
+export interface Point {
+  x: number;
+  y: number;
+}
+
+interface BezierCurveEditorBaseProps {
   size?: number;
   outerAreaSize?: number;
   outerAreaColor?: string;
@@ -20,141 +26,137 @@ export type BezierCurveEditorProps = {
   startHandleColor?: string;
   endHandleColor?: string;
   className?: string;
+  fixedPointActiveClassName?: string;
   startHandleClassName?: string;
   startHandleActiveClassName?: string;
   endHandleClassName?: string;
   endHandleActiveClassName?: string;
   enablePreview?: boolean;
+}
+
+interface BezierCurveEditorEditNodeProps {
+  allowNodeEditing: true;
+  value?: ExpandedValueType;
+  onChange?: (value: ExpandedValueType) => void;
+}
+interface BezierCurveEditorFixedNodeProps {
+  allowNodeEditing?: false;
   value?: ValueType;
   onChange?: (value: ValueType) => void;
-};
+}
 
-const defaultProps = {
+export type BezierCurveEditorProps = BezierCurveEditorBaseProps &
+  (BezierCurveEditorEditNodeProps | BezierCurveEditorFixedNodeProps);
+
+const defaultProps: BezierCurveEditorProps = {
   size: 200,
   outerAreaSize: 50,
   strokeWidth: 2,
-  value: [0.4, 0, 1, 0.6] satisfies ValueType, // easeIn
+  value: [0.4, 0, 1, 0.6], // easeIn
 };
 
-export function BezierCurveEditor(props: BezierCurveEditorProps) {
-  const {
-    size = defaultProps.size,
-    strokeWidth = defaultProps.strokeWidth,
-    outerAreaSize = defaultProps.outerAreaSize,
-    value = defaultProps.value,
-    innerAreaColor,
-    outerAreaColor,
-    rowColor,
-    handleLineColor,
-    curveLineColor,
-    fixedHandleColor,
-    startHandleColor,
-    endHandleColor,
-    enablePreview,
-    className,
-    startHandleClassName,
-    endHandleClassName,
-    startHandleActiveClassName,
-    endHandleActiveClassName,
-    onChange,
-  } = props;
-
-  const [movingStartHandle, setMovingStartHandle] = useState(false);
-  const [movingEndHandle, setMovingEndHandle] = useState(false);
-  const startValueRef = useRef(value);
-  const movingStartHandleStartRef = useRef({ x: 0, y: 0 });
-  const movingEndHandleStartRef = useRef({ x: 0, y: 0 });
-  const { startCoordinate, endCoordinate, startBezierHandle, endBezierHandle } = bezierCurveParamsFromSizeAndValue(
-    size,
-    value
+export function BezierCurveEditor({
+  size = defaultProps.size,
+  strokeWidth = defaultProps.strokeWidth,
+  outerAreaSize = defaultProps.outerAreaSize,
+  value: valueProp = defaultProps.value,
+  innerAreaColor,
+  outerAreaColor,
+  rowColor,
+  handleLineColor,
+  curveLineColor,
+  fixedHandleColor,
+  startHandleColor,
+  endHandleColor,
+  enablePreview,
+  className,
+  startHandleClassName,
+  endHandleClassName,
+  fixedPointActiveClassName,
+  startHandleActiveClassName,
+  endHandleActiveClassName,
+  ...props
+}: BezierCurveEditorProps) {
+  const initialValueRef = React.useRef<ExpandedValueType>(
+    valueProp.length === 4 ? [0, 0, ...valueProp, 1, 1] : valueProp
   );
+  const value = React.useMemo((): ExpandedValueType => {
+    return valueProp.length === 4 ? [0, 0, ...valueProp, 1, 1] : valueProp;
+  }, [valueProp]);
+  const updateValueRef = React.useCallback(() => {
+    initialValueRef.current = [...value] satisfies ExpandedValueType;
+  }, [value]);
 
-  const clampValue = (value: ValueType) => {
-    const allowedOuterValue = outerAreaSize / size;
-    const nextValue = [...value] satisfies ValueType;
-    nextValue[0] = Math.max(0, Math.min(1, nextValue[0]));
-    nextValue[2] = Math.max(0, Math.min(1, nextValue[2]));
-    nextValue[1] = Math.max(-allowedOuterValue, Math.min(1 + allowedOuterValue, nextValue[1]));
-    nextValue[3] = Math.max(-allowedOuterValue, Math.min(1 + allowedOuterValue, nextValue[3]));
-    return nextValue;
-  };
+  const moveStartHandle = React.useCallback(
+    (start: Point, movement: Point) => {
+      const nextValue = moveHandle(initialValueRef.current, size, [2, 3], start, movement);
+      const clampedValue = clampValue(outerAreaSize, size, nextValue);
+      if (props.onChange && props.allowNodeEditing) props.onChange( clampedValue);
+      if (props.onChange && props.allowNodeEditing !== true) props.onChange(clampedValue.slice(2, 6) as ValueType);
+    },
+    [size, outerAreaSize, props.onChange, props.allowNodeEditing]
+  );
+  const [
+    movingStartHandle,
+    {
+      handlePointerLeaveOrUp: handleStartHandlePointerLeaveOrUp,
+      handlePointerMove: handleStartHandlePointerMove,
+      handlePointerStartMoving: handleStartHandleStartMoving,
+    },
+  ] = useHandleState(moveStartHandle, updateValueRef);
+  const moveEndHandle = React.useCallback(
+    (start: Point, movement: Point) => {
+      const nextValue = moveHandle(initialValueRef.current, size, [4, 5], start, movement);
+      const clampedValue = clampValue(outerAreaSize, size, nextValue);
+      if (props.onChange && props.allowNodeEditing) props.onChange( clampedValue);
+      if (props.onChange && props.allowNodeEditing !== true) props.onChange(clampedValue.slice(2, 6) as ValueType);
+    },
+    [size, outerAreaSize, props.onChange, props.allowNodeEditing]
+  );
+  const [
+    movingEndHandle,
+    {
+      handlePointerLeaveOrUp: handleEndHandlePointerLeaveOrUp,
+      handlePointerMove: handleEndHandlePointerMove,
+      handlePointerStartMoving: handleEndHandleStartMoving,
+    },
+  ] = useHandleState(moveEndHandle, updateValueRef);
+  const moveStartPoint = React.useCallback(
+    (start: Point, movement: Point) => {
+      const nextValue = moveHandle(initialValueRef.current, size, [0, 1], start, movement);
+      const clampedValue = clampValue(outerAreaSize, size, nextValue);
+      if (props.onChange && props.allowNodeEditing) props.onChange( clampedValue);
+      if (props.onChange && props.allowNodeEditing !== true) props.onChange(clampedValue.slice(2, 6) as ValueType);
+    },
+    [size, outerAreaSize, props.onChange, props.allowNodeEditing]
+  );
+  const [
+    movingStartPoint,
+    {
+      handlePointerLeaveOrUp: handleStartPointPointerLeaveOrUp,
+      handlePointerMove: handleStartPointPointerMove,
+      handlePointerStartMoving: handleStartPointStartMoving,
+    },
+  ] = useHandleState(moveStartPoint, updateValueRef);
+  const moveEndPoint = React.useCallback(
+    (start: Point, movement: Point) => {
+      const nextValue = moveHandle(initialValueRef.current, size, [6, 7], start, movement);
+      const clampedValue = clampValue(outerAreaSize, size, nextValue);
+      if (props.onChange && props.allowNodeEditing) props.onChange( clampedValue);
+      if (props.onChange && props.allowNodeEditing !== true) props.onChange(clampedValue.slice(2, 6) as ValueType);
+    },
+    [size, outerAreaSize, props.onChange, props.allowNodeEditing]
+  );
+  const [
+    movingEndPoint,
+    {
+      handlePointerLeaveOrUp: handleEndPointPointerLeaveOrUp,
+      handlePointerMove: handleEndPointPointerMove,
+      handlePointerStartMoving: handleEndPointStartMoving,
+    },
+  ] = useHandleState(moveEndPoint, updateValueRef);
 
-  const moveHandles = (x: number, y: number) => {
-    const relevantStart = movingStartHandle
-      ? movingStartHandleStartRef.current
-      : movingEndHandle
-      ? movingEndHandleStartRef.current
-      : undefined;
-
-    if (movingStartHandle || movingEndHandle) {
-      const relXMoved = (x - relevantStart.x) / size;
-      const relYMoved = (y - relevantStart.y) / size;
-      const nextValue = [...startValueRef.current] satisfies ValueType;
-
-      if (movingStartHandle) {
-        nextValue[0] = nextValue[0] + relXMoved;
-        nextValue[1] = nextValue[1] - relYMoved;
-      }
-
-      if (movingEndHandle) {
-        nextValue[2] = nextValue[2] + relXMoved;
-        nextValue[3] = nextValue[3] - relYMoved;
-      }
-
-      const clampedValue = clampValue(nextValue);
-      if (onChange) onChange?.(clampedValue);
-    }
-  };
-
-  const handleStartHandleStartMoving = (event: PointerEvent<HTMLButtonElement>) => {
-    if (movingStartHandle) return;
-
-    event.preventDefault();
-
-    setMovingStartHandle(true);
-    const startX = event.screenX;
-    const startY = event.screenY;
-    startValueRef.current = [...value];
-    movingStartHandleStartRef.current = { x: startX, y: startY };
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handleStartHandlePointerMove = (event: PointerEvent<HTMLButtonElement>) => {
-    if (movingStartHandle) {
-      const x = event.screenX;
-      const y = event.screenY;
-      moveHandles(x, y);
-    }
-  };
-
-  const handleStartHandlePointerLeaveOrUp = (event: PointerEvent<HTMLButtonElement>) => {
-    event.currentTarget.releasePointerCapture(event.pointerId);
-    setMovingStartHandle(false);
-  };
-
-  const handleEndHandleStartMoving = (event: PointerEvent<HTMLButtonElement>) => {
-    if (movingEndHandle) return;
-
-    setMovingEndHandle(true);
-    const startX = event.screenX;
-    const startY = event.screenY;
-    startValueRef.current = [...value];
-    movingEndHandleStartRef.current = { x: startX, y: startY };
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handleEndHandlePointerMove = (event: PointerEvent<HTMLButtonElement>) => {
-    if (movingEndHandle) {
-      const x = event.screenX;
-      const y = event.screenY;
-      moveHandles(x, y);
-    }
-  };
-
-  const handleEndHandlePointerLeaveOrUp = (event: PointerEvent<HTMLButtonElement>) => {
-    event.currentTarget.releasePointerCapture(event.pointerId);
-    setMovingEndHandle(false);
-  };
+  const { startBezierHandle, endBezierHandle } = bezierCurveParamsFromSizeAndValue(size, value);
 
   return (
     <div className={cx(styles.root, className)}>
@@ -194,6 +196,16 @@ export function BezierCurveEditor(props: BezierCurveEditorProps) {
           strokeWidth={strokeWidth}
           handleLineColor={handleLineColor}
           fixedHandleColor={fixedHandleColor}
+          isEditable={props.allowNodeEditing}
+          activeClassName={fixedPointActiveClassName}
+          movingEndPoint={movingEndPoint}
+          movingStartPoint={movingStartPoint}
+          handleStartPointStartMoving={handleStartPointStartMoving}
+          handleStartPointPointerMove={handleStartPointPointerMove}
+          handleStartPointPointerLeaveOrUp={handleStartPointPointerLeaveOrUp}
+          handleEndPointStartMoving={handleEndPointStartMoving}
+          handleEndPointPointerMove={handleEndPointPointerMove}
+          handleEndPointPointerLeaveOrUp={handleEndPointPointerLeaveOrUp}
         />
 
         <button
@@ -231,4 +243,37 @@ export function BezierCurveEditor(props: BezierCurveEditorProps) {
       </div>
     </div>
   );
+}
+
+function clampValue(outerAreaSize: number, size: number, value: ExpandedValueType): ExpandedValueType {
+  const nextValue = [...value] satisfies ExpandedValueType;
+  const allowedOuterValue = outerAreaSize / size;
+  nextValue[0] = Math.max(0, Math.min(1, nextValue[0]));
+  nextValue[1] = Math.max(0, Math.min(1, nextValue[1]));
+  nextValue[2] = Math.max(0, Math.min(1, nextValue[2]));
+  nextValue[4] = Math.max(0, Math.min(1, nextValue[4]));
+  nextValue[6] = Math.max(0, Math.min(1, nextValue[6]));
+  nextValue[7] = Math.max(0, Math.min(1, nextValue[7]));
+  nextValue[3] = Math.max(-allowedOuterValue, Math.min(1 + allowedOuterValue, nextValue[3]));
+  nextValue[5] = Math.max(-allowedOuterValue, Math.min(1 + allowedOuterValue, nextValue[5]));
+  return nextValue;
+}
+
+function moveHandle(
+  value: ExpandedValueType,
+  size: number,
+  targetIndices: [number, number],
+  start: Point,
+  { x, y }: Point
+): ExpandedValueType {
+  const nextValue = [...value] satisfies ExpandedValueType;
+  const [xIndex, yIndex] = targetIndices;
+
+  const relXMoved = (x - start.x) / size;
+  const relYMoved = (y - start.y) / size;
+
+  nextValue[xIndex] = nextValue[xIndex] + relXMoved;
+  nextValue[yIndex] = nextValue[yIndex] - relYMoved;
+
+  return nextValue;
 }

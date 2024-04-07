@@ -100,6 +100,11 @@
     background-color: var(--bce-colors-handle-fixed);
   }
 
+  &.fixed:is(button) {
+    pointer-events: initial;
+    cursor: pointer;
+  }
+
   &.start {
     color: var(--bce-colors-handle-start);
     background-color: var(--bce-colors-handle-start);
