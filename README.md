@@ -5,7 +5,7 @@ Customizable React Bezier Curve editor for easings and more. Default styling ins
 ## Usage
 
 ```jsx
-import { BezierCurveEditor } from 'react-bezier-curve-editor`;
+import { BezierCurveEditor } from 'react-bezier-curve-editor';
 
 <BezierCurveEditor />
 ```
