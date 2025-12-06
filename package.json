@@ -37,7 +37,7 @@
   ],
   "repository": "https://github.com/LiamMartens/react-bezier-curve-editor",
   "author": "Liam Martens <hi@liammartens.com>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@storybook/addon-essentials": "^7.6.3",
     "@storybook/addon-interactions": "^7.6.3",
